@@ -206,6 +206,19 @@ nav ul li.active {
       -ms-flex: 1;
           flex: 1;
   background: cornflowerblue;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .module .item .right .row div.row-offset {
   margin-right: 5px;
@@ -214,8 +227,8 @@ nav ul li.active {
   margin-bottom: 5px;
 }
 .articles {
-  margin-top: 30px;
-  margin-bottom: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   background: white;
 }
 .articles article:not(.special) {
@@ -269,16 +282,13 @@ nav ul li.active {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 6rem;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
 }
-.articles article.special div div {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-.articles article.special div div img {
-  width: 100%;
+.articles article.special div img {
+  width: 32%;
+  height: 100%;
 }
 .articles article.special p {
   margin-top: 10px;

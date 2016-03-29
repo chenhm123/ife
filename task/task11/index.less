@@ -155,6 +155,9 @@ nav{
         div{
           flex:1;
           background:cornflowerblue;
+          display:flex;
+          flex-direction: column;
+          justify-content: center;
           &.row-offset{
             margin-right:5px;
           }
@@ -167,8 +170,8 @@ nav{
   }
 }
 .articles{
-  margin-top: 30px;
-  margin-bottom: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   background: white;
   article:not(.special){
     display:flex;
@@ -208,12 +211,10 @@ nav{
     }
     div{
       display:flex;
-      height:6rem;
-      div{
-        flex:1;
-        img{
-          width:100%;
-        }
+      justify-content:space-around;
+      img{
+        width:32%;
+        height:100%
       }
     }
     p{
