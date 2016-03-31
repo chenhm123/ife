@@ -1,0 +1,40 @@
+html,body{
+    margin:0;
+    padding:0;
+}
+.container{
+    padding:20px;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.d1,.d2,.d3,.d4{
+    box-sizing: border-box;
+    flex: 0 0 150px;
+}
+.d1,.d2,.d3{
+    border:1px solid red;
+}
+.d1{
+    height:120px;
+}
+.d2{
+    height:100px;
+}
+.d3{
+    height:40px;
+}
+.d4{
+    border:1px solid blue;
+    height:200px;
+}
+@media (max-width:639px){
+    .d4{
+        order: -1;
+        margin-bottom: 20px;
+    }
+    .container{
+        align-items: flex-start;
+    }
+}
