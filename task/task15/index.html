@@ -39,7 +39,10 @@
                 liList = document.querySelectorAll("#source>li");
         Array.prototype.forEach.call(liList,function(current){
             var content = current.textContent;
-            data.push([content.slice(0,2),content.slice(content.length-2,content.length)])
+            var score = parseInt(current.children[0].textContent,10);
+
+            //正则 data.push(content.replace(/(.*)空气质量:<b>(.*)<\/b>/g,'$1 $2').split(' '));
+            data.push([content.slice(0,2),score])
         })
         return data;
     }
@@ -73,6 +76,8 @@
         var aqiData = getData();
         aqiData = sortAqiData(aqiData);
         render(aqiData);
+        var btn = document.querySelector("#sort-btn");
+        btn.onclick = null;//解决无限点击问题
     }
 
 
