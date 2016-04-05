@@ -62,18 +62,29 @@ var pageState = {
  * 渲染图表
  */
 function renderChart() {
-
+    var city = cityNames[pageState.nowSelectCity];
+    var type = pageState.nowGraTime;
+    var cityAndType = city +""+ type;
+    var date = chartData[cityAndType];
+    var purpose = document.querySelector(".aqi-chart-wrap");
+    purpose.innerHTML = "";
+    var left = 0;
+    for(var key in date){
+        var color = (Math.random())*360;
+        var div = document.createElement('div');
+        div.setAttribute('class','data-item');
+        div.style.height = date[key];
+        div.style.left = left;
+        div.style.background = "hsla("+color+",50%,50%,1)";
+        left+=10;
+        purpose.appendChild(div);
+    }
 }
 
 /**
  * 日、周、月的radio事件点击时的处理函数
  */
 function graTimeChange() {
-    // 确定是否选项发生了变化
-
-    // 设置对应数据
-
-    // 调用图表渲染函数
     pageState.nowGraTime = this.value;
     initAqiChartData();
     renderChart()
@@ -121,17 +132,65 @@ function initAqiChartData() {
     var city = cityNames[pageState.nowSelectCity];
     var type = pageState.nowGraTime;
     var cityAndType = city +""+ type;
+    var data = aqiSourceData[city];
     if(type === 'day'){
         if(chartData[cityAndType]) return ;
-        chartData[cityAndType] = aqiSourceData[city];
+        chartData[cityAndType] = data;
     }else if(type === 'week'){
         if(chartData[cityAndType]) return ;
-
-
+        var weekDay = 0;
+        var sum = 0;
+        var result = {Jan:[],Feb:[],March:[]}
+        var month = ["Jan","Feb","March"];
+        for(var key in data){
+            var date = new Date(key);
+            if(date.getDay()!=0){
+                weekDay++;
+                sum += data[key];
+                if((new Date((date/1000+86400*1)*1000)).getMonth()!==date.getMonth()){
+                    result[month[date.getMonth()]].push(Math.floor(sum/weekDay));
+                    sum = 0;
+                    weekDay=0;
+                };
+            }else{
+                weekDay++;
+                sum += data[key];
+                result[month[date.getMonth()]].push(Math.floor(sum/weekDay));
+                sum = 0;
+                weekDay=0;
+            }
+        }
+        chartData[cityAndType] = result;
     }else if(type === "month"){
         if(chartData[cityAndType]) return ;
-
+        data = getMonData(data);
+        for(var key in data){
+            var sum = 0;
+            data[key].forEach(function(num){
+                sum+=num;
+            })
+            data[key] = Math.floor(sum/data[key].length);
+        }
+        chartData[cityAndType] = data;
     }
+}
+
+function getMonData(data){
+    var Jan = [],Feb=[],march=[];
+    var result = {};
+    for(var key in data){
+        if((new Date(key).getMonth())==0){
+            Jan.push(data[key]);
+        }else if((new Date(key).getMonth())==1){
+            Feb.push(data[key]);
+        }else if((new Date(key).getMonth())==2){
+            march.push(data[key]);
+        }
+    }
+    result["Jan"] = Jan;
+    result["Feb"] = Feb;
+    result["march"] = march;
+    return result;
 }
 
 /**
@@ -141,6 +200,8 @@ function init() {
     initGraTimeForm()
     initCitySelector();
     initAqiChartData();
+    initAqiChartData();
+    renderChart();
 }
 
 init();
