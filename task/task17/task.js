@@ -70,13 +70,15 @@ function renderChart() {
     purpose.innerHTML = "";
     var left = 0;
     for(var key in date){
+        var title = key + "空气指数:"+date[key];
         var color = (Math.random())*360;
         var div = document.createElement('div');
         div.setAttribute('class','data-item');
+        div.setAttribute('title',title);
         div.style.height = date[key];
         div.style.left = left;
         div.style.background = "hsla("+color+",50%,50%,1)";
-        left+=10;
+        left+=15;
         purpose.appendChild(div);
     }
 }
@@ -160,7 +162,14 @@ function initAqiChartData() {
                 weekDay=0;
             }
         }
-        chartData[cityAndType] = result;
+        chartData[cityAndType] = {};
+        for(var mon in result){
+            for(var i = 0,length=result[mon].length;i<length;i++){
+                var num = i+1;
+                var pro = mon+""+num;
+                chartData[cityAndType][pro]= result[mon][i];
+            }
+        }
     }else if(type === "month"){
         if(chartData[cityAndType]) return ;
         data = getMonData(data);
