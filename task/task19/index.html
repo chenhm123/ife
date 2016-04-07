@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #data-list{
+            margin-top:20px;
+            height:200px;
+            position:relative;
+            border:1px solid black;
+            font-size:0;
+        }
+        .item{
+            display:inline-block;
+            width:20px;
+            height:100%;
+            position: relative;
+            margin:0 2px;
+        }
+        .item-child{
+            position:absolute;
+            bottom:0;
+            background:red;
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+<input type="text" id="data-input">
+<button id="leftIn">左侧入</button>
+<button id="rightIn">右侧入</button>
+<button id="leftOut">左侧出</button>
+<button id="rightOut">右侧出</button>
+<button id="sort">排序</button>
+<div id="data-list">
+
+</div>
+<script>
+    (function(){
+        var leftIn = document.querySelector("#leftIn");
+        var rightIn = document.querySelector("#rightIn");
+        var leftOut = document.querySelector("#leftOut");
+        var rightOut = document.querySelector("#rightOut");
+        var inputText= document.querySelector("#data-input");
+        var purpose = document.querySelector("#data-list");
+
+        leftIn.onclick = function(){
+            if(hasFulled()) {
+                if (inputText.value && /^[1-9][0-9]$/.test(inputText.value)) {
+                    var div = document.createElement("div");
+                    var childDiv = document.createElement('div');
+                    childDiv.style.height = "" + inputText.value + "%";
+                    div.appendChild(childDiv);
+                    childDiv.setAttribute('class', 'item-child');
+                    div.setAttribute('class', 'item');
+                    if (purpose.hasChildNodes()) {
+                        purpose.insertBefore(div, purpose.firstChild)
+                    } else {
+                        purpose.appendChild(div);
+                    }
+                } else {
+                    alert("请输入有效数值")
+                }
+            }else{
+                alert("数据已满");
+            }
+            inputText.value = "";
+
+        }
+
+        rightIn.onclick = function(){
+            if(hasFulled()) {
+                if (inputText.value && /^[1-9][0-9]$/.test(inputText.value)) {
+                    var div = document.createElement("div");
+                    var childDiv = document.createElement('div');
+                    childDiv.style.height = "" + inputText.value + "%";
+                    div.appendChild(childDiv);
+                    childDiv.setAttribute('class', 'item-child');
+                    div.setAttribute('class', 'item');
+                    purpose.appendChild(div);
+                } else {
+                    alert("请输入有效数值")
+                }
+            }
+            inputText.value = "";
+        }
+
+        leftOut.onclick = function(){
+            if(purpose.hasChildNodes()){
+                purpose.removeChild(purpose.firstChild);
+            }else{
+                alert("当前没有元素")
+            }
+        }
+
+        rightOut.onclick = function(){
+            if(purpose.hasChildNodes()){
+                purpose.removeChild(purpose.lastChild);
+            }else{
+                alert("当前没有元素")
+            }
+        }
+
+        document.onclick = function(ev){
+            if(ev.target.getAttribute('class')=="item"){
+                purpose.removeChild(ev.target);
+            }
+        }
+
+        function hasFulled(){
+            return purpose.children.length>=60?false:true;
+        }
+
+        var sortBtn = document.querySelector("#sort");
+        sortBtn.onclick = function(){
+            var cloneDom ;
+            for (var i = 0; i < purpose.children.length; i++)
+            {
+                for (var j = 0; j < purpose.children.length - i-1; j++)
+                {
+                    if (parseInt(purpose.children[j].children[0].style.height,10) > parseInt(purpose.children[j + 1].children[0].style.height,10))
+                    {
+                        cloneDom = purpose.children[j + 1].cloneNode(true);
+                        purpose.replaceChild(purpose.children[j],purpose.children[j + 1])
+                        purpose.replaceChild(cloneDom,purpose.children[j])
+                    }
+                }
+            }
+        }
+
+    })()
+</script>
+</body>
+</html>
