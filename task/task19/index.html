@@ -114,16 +114,15 @@
 
         var sortBtn = document.querySelector("#sort");
         sortBtn.onclick = function(){
-            var cloneDom ;
+            var dom ;
             for (var i = 0; i < purpose.children.length; i++)
             {
                 for (var j = 0; j < purpose.children.length - i-1; j++)
                 {
                     if (parseInt(purpose.children[j].children[0].style.height,10) > parseInt(purpose.children[j + 1].children[0].style.height,10))
                     {
-                        cloneDom = purpose.children[j + 1].cloneNode(true);
-                        purpose.replaceChild(purpose.children[j],purpose.children[j + 1])
-                        purpose.replaceChild(cloneDom,purpose.children[j])
+                        var dom = purpose.replaceChild(purpose.children[j],purpose.children[j+1])
+                        purpose.insertBefore(dom,purpose.children[j]);
                     }
                 }
             }
