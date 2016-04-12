@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>task21</title>
+    <style>
+        #data-list{
+            margin-top:20px;
+        }
+        .item{
+            display:inline-block;
+            width:200px;
+            height:50px;
+            background:red;
+            text-align: center;
+            line-height: 50px;
+            margin:0 10px;
+        }
+    </style>
+</head>
+<body>
+    tag:<input type="text" id="tag">
+    <div id="data-list">
+
+    </div>
+    <script>
+        (function(){
+           var dataList = document.querySelector("#data-list");
+           var tag = document.querySelector("#tag");
+           var purpose = document.querySelector("#data-list");
+           var textArr = [];
+           tag.oninput = function(){
+               var _self = this;
+               var text = this.value.trim();
+               if(text.includes(",")||text.includes(" ")){
+                   if(textArr.indexOf(text) === -1 && textArr.length<10){
+                       var div = document.createElement("div");
+                       div.innerHTML = text.substring(0,text.length-1);
+                       div.setAttribute('class','item');
+                       purpose.appendChild(div);
+                       textArr.push(text);
+                       _self.value = "";
+                   }
+                   _self.value = "";
+               }
+           };
+           tag.onkeydown = function(event){
+               var _self = this;
+               if(event.keyCode == 13){
+                   var text = _self.value.trim();
+                   if(textArr.indexOf(text) === -1 &&textArr.length<10) {
+                       var div = document.createElement("div");
+                       div.innerHTML = text.substring(0, text.length);
+                       div.setAttribute('class', 'item');
+                       purpose.appendChild(div);
+                       textArr.push(text);
+                       _self.value = "";
+                   }
+                   _self.value = "";
+               }
+           }
+           dataList.onmouseover = function(event){
+               if(event.target.className === "item"){
+                   var text = event.target.textContent;
+                   event.target.textContent = "点击删除" + event.target.textContent;
+                   event.target.onmouseout = function(){
+                       event.target.textContent = text;
+                   }
+                   event.target.onclick = function(){
+                       event.target.parentNode.removeChild(event.target);
+                   }
+               }
+           }
+
+        })()
+    </script>
+</body>
+</html>
