@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>task20</title>
+    <style>
+        textarea{
+            -webkit-appearance: textarea;
+            background-color: white;
+            -webkit-rtl-ordering: logical;
+            -webkit-user-select: text;
+            flex-direction: column;
+            resize: auto;
+            cursor: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 1px solid;
+            padding: 2px
+        }
+        #data-list{
+            margin-top:20px;
+        }
+        .item{
+            display:inline-block;
+            width:50px;
+            height:50px;
+            background:red;
+            text-align: center;
+            line-height: 50px;
+            margin:0 10px;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="writeIn" rows="5" cols="20"></textarea>
+    <button id="shuru">输入</button>
+    <input type="text" id="selectValue">
+    <button id="selectBtn">查询</button>
+
+    <div id="data-list">
+
+    </div>
+</body>
+<script>
+    (function(){
+        var shuruBtn = document.querySelector("#shuru");
+        var selectBtn = document.querySelector("#selectBtn");
+        var purpose = document.querySelector("#data-list");
+
+        shuruBtn.onclick = function(){
+            var texts = document.querySelector("#writeIn").value;
+            var showdata = texts.split(/\s+|,|、/);
+            showdata.forEach(function(cur){
+                var div = document.createElement("div");
+                div.innerHTML = cur;
+                div.setAttribute('class','item');
+                purpose.appendChild(div);
+            })
+        }
+
+        selectBtn.onclick = function(){
+            var sql = document.querySelector("#selectValue").value;
+            if(sql){
+                var rect = purpose.children;
+                if(rect.length>0){
+                    Array.prototype.forEach.call(rect,function(cur){
+                        if(cur.textContent.includes(sql)){
+                            cur.style.color = "blue";
+                        }
+                    })
+                }
+            }
+        }
+
+    })()
+</script>
+</html>
