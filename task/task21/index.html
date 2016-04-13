@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>task21</title>
     <style>
-        #data-list{
+        #data-list,#data-list2{
             margin-top:20px;
         }
         .item{
@@ -14,7 +14,20 @@
             background:red;
             text-align: center;
             line-height: 50px;
-            margin:0 10px;
+            margin:10px 10px;
+        }
+        textarea{
+            -webkit-appearance: textarea;
+            background-color: white;
+            -webkit-rtl-ordering: logical;
+            -webkit-user-select: text;
+            flex-direction: column;
+            resize: auto;
+            cursor: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 1px solid;
+            padding: 2px
         }
     </style>
 </head>
@@ -23,17 +36,52 @@
     <div id="data-list">
 
     </div>
+    <textarea rows="5" cols="25"></textarea>
+    <button id="intBtn">确认兴趣爱好</button>
+    <div id="data-list2">
+
+    </div>
     <script>
         (function(){
            var dataList = document.querySelector("#data-list");
            var tag = document.querySelector("#tag");
            var purpose = document.querySelector("#data-list");
+           var textarea = document.querySelector("textarea");
+           var intBtn = document.querySelector("#intBtn")
+           var purpost2 = document.querySelector("#data-list2")
            var textArr = [];
+           var interArr = []
+
+           intBtn.onclick = function(){
+               var texts = textarea.value;
+               texts = texts.trim();
+               var showdata = texts.split(/\s+|,|、/);
+               showdata.forEach(function(cur){
+                   if(interArr.indexOf(cur) === -1) {
+                       if(interArr.length === 10){
+                           interArr.shift();
+                           var divs = document.querySelectorAll("#data-list2>div");
+                           purpost2.removeChild(divs[0]);
+                       }
+                       var div = document.createElement("div");
+                       div.innerHTML = cur;
+                       div.setAttribute('class', 'item');
+                       purpost2.appendChild(div);
+                       interArr.push(cur);
+                   }
+               })
+               textarea.value = ""
+           }
            tag.oninput = function(){
                var _self = this;
                var text = this.value.trim();
                if(text.includes(",")||text.includes(" ")){
-                   if(textArr.indexOf(text) === -1 && textArr.length<10){
+                   if(textArr.indexOf(text) === -1){
+                       if(textArr.length === 10){
+                           textArr.shift();
+                           var divs = document.querySelectorAll("#data-list>div");
+                           purpose.removeChild(divs[0]);
+                       }
                        var div = document.createElement("div");
                        div.innerHTML = text.substring(0,text.length-1);
                        div.setAttribute('class','item');
@@ -48,7 +96,12 @@
                var _self = this;
                if(event.keyCode == 13){
                    var text = _self.value.trim();
-                   if(textArr.indexOf(text) === -1 &&textArr.length<10) {
+                   if(textArr.indexOf(text) === -1) {
+                       if(textArr.length === 10){
+                           textArr.shift();
+                           var divs = document.querySelectorAll("#data-list>div");
+                           purpose.removeChild(divs[0]);
+                       }
                        var div = document.createElement("div");
                        div.innerHTML = text.substring(0, text.length);
                        div.setAttribute('class', 'item');
