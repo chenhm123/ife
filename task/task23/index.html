@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>task23</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        article {
+            width: 1100px;
+            margin: 50px auto;
+        }
+
+        .graph div {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+
+        .root {
+            width: 100%;
+            height: 350px;
+        }
+
+        .root div {
+            height: 80%;
+            margin: 0 10px;
+        }
+
+        .operator {
+            margin: 20px 0
+        }
+
+        .operator button {
+            outline: none;
+            box-shadow: 3px 3px 10px #ccc;
+            padding: 5px;
+            background-color: #fff;
+            margin-right: 40px;
+        }
+
+        .operator input {
+            outline: none;
+            height: 30px;
+            padding: 5px;
+        }
+        /*点击后的激活状态*/
+        .graph .active {
+            background-color: #FEF9D1;
+        }
+
+        /*遍历中的过渡状态*/
+        .graph .transition {
+            background-color: #ccc;
+        }
+        .traversal, .search, .processNode {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+<article>
+    <h2>多叉树的遍历</h2>
+    <div class="graph">
+        <div class="root">
+            sports
+            <div>
+                ten
+                <div>
+                    man
+                    <div>fede</div>
+                    <div>xluo</div>
+                </div>
+                <div>
+                    wman
+                    <div>w1</div>
+                </div>
+            </div>
+            <div>
+                football
+                <div>
+                    man
+                    <div>
+                        Cluo
+                        <div>wo</div>
+                    </div>
+                    <div>meisi</div>
+                </div>
+            </div>
+            <div>ping
+                <div>w3</div>
+            </div>
+        </div>
+    </div>
+    <div class="operator">
+        <div class="traversal">
+            <button id="traverseDF">深度优先遍历</button>
+            <input type="text" id="selectValue">
+            <button id="select">查询</button>
+        </div>
+    </div>
+</article>
+
+<script>
+    (function(){
+        var traverseDF = document.querySelector("#traverseDF")
+        var root = document.querySelector(".root");
+        var select = document.querySelector("#select")
+        var selectText = document.querySelector("#selectValue");
+        var haveFind = false;
+
+        var stack = []
+
+        select.onclick = function(){
+            stack = []
+            fn1(root);
+            animation2(stack);
+        }
+
+        traverseDF.onclick = function(){
+            stack = []
+            fn1(root);
+            animation(stack);
+        }
+        function fn1(node){
+            //
+            stack.push(node);
+            if(node.firstElementChild){
+                fn1(node.firstElementChild);
+            }
+            var siblingElement = node.nextElementSibling;
+            if(siblingElement){
+                fn1(siblingElement)
+            }
+        }
+        function animation(divs){
+            var i = 0;
+            setTimeout(function xx(){
+                if(divs[i-1]){
+                    divs[i-1].style.background = "white";
+                }
+                if(divs[i]){
+                    divs[i].style.background = "red";
+                    i++
+                    setTimeout(xx,1000);
+                }
+            },1000)
+        }
+        function animation2(divs){
+            var i = 0;
+            setTimeout(function xx(){
+                if(divs[i-1]){
+                    if(divs[i-1].textContent === selectText.value){
+                        haveFind = true;
+                    }else{
+                        divs[i-1].style.background = "white";
+                    }
+                }
+                if(divs[i]){
+                    divs[i].style.background = "red";
+                    i++
+                    setTimeout(xx,1000);
+                }else{
+                    if(!haveFind){
+                        alert("没有找到")
+                    }
+                }
+            },1000)
+        }
+    })()
+</script>
+</body>
+</html>
