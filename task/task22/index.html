@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            border:1px solid black;
+            background:white;
+        }
+        .root{
+            display:flex;
+            width: 800px;
+            height:300px;
+        }
+        .root div{
+            flex:1;
+            display:flex;
+            margin:20px 10px;
+        }
+        button{
+            width:200px;
+            height:50px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="root">
+        <div class="son-1">
+            <div class="son-2">
+                <div class="son-3"></div>
+                <div class="son-3"></div>
+            </div>
+            <div class="son-2">
+                <div class="son-3"></div>
+                <div class="son-3"></div>
+            </div>
+        </div>
+        <div class="son-1">
+            <div class="son-2">
+                <div class="son-3"></div>
+                <div class="son-3"></div>
+            </div>
+            <div class="son-2">
+                <div class="son-3"></div>
+                <div class="son-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <button id="preorder">前序</button>
+    <button id="inorder">中序</button>
+    <button id="epilogue">后序</button>
+</body>
+<script>
+    (function(){
+        var preorder = document.querySelector("#preorder");
+        var inorder = document.querySelector("#inorder");
+        var epilogue = document.querySelector("#epilogue");
+        var root = document.querySelector(".root");
+        var stack = [];
+
+        preorder.onclick = function(){
+            stack = []
+            fn1(root);
+            animation(stack);
+
+        }
+        inorder.onclick = function(){
+            stack = [];
+            fn2(root);
+            animation(stack)
+        }
+
+        epilogue.onclick = function(){
+            stack = [];
+            fn3(root);
+            animation(stack);
+        }
+
+        function fn1(node){
+            //
+            stack.push(node);
+            if(node.firstElementChild){
+                fn1(node.firstElementChild);
+            }
+            if(node.lastElementChild){
+                fn1(node.lastElementChild)
+            }
+        }
+
+        function fn2(node){
+            if(node.firstElementChild){
+                fn2(node.firstElementChild)
+            }
+            stack.push(node);
+            if(node.lastElementChild){
+                fn2(node.lastElementChild);
+            }
+        }
+
+        function fn3(node){
+            if(node.firstElementChild){
+                fn3(node.firstElementChild)
+            }
+            if(node.lastElementChild){
+                fn3(node.lastElementChild)
+            }
+            stack.push(node);
+        }
+
+        function animation(divs){
+            var i = 0;
+            setTimeout(function xx(){
+                if(divs[i-1]){
+                    divs[i-1].style.background = "white";
+                }
+                if(divs[i]){
+                    divs[i].style.background = "red";
+                    i++
+                    setTimeout(xx,1000);
+                }
+            },1000)
+        }
+
+    })()
+</script>
+</html>
