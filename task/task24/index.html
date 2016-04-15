@@ -127,29 +127,39 @@
         root.onclick = function(event){
             if( event.target.style.background === "yellowgreen"){
                 event.target.style.background = "white";
+                event.target.setAttribute('data-record',"nocheck");
+
             }else{
                 event.target.style.background = "yellowgreen";
+                event.target.setAttribute('data-record',"check");
             }
         }
 
         addBtn.onclick = function(){
+            var select = document.querySelectorAll('.graph div[data-record="check"]');
             if(domValue.value){
-                if(document.querySelector()){
-
+                if(select){
+                    Array.prototype.forEach.call(select,function(dom){
+                        var div = document.createElement("div");
+                        div.textContent = domValue.value;
+                        dom.appendChild(div);
+                    })
                 }
+            }else{
+                alert("请输入内容");
             }
         }
 
         deleteBtn.onclick = function(){
-
+            var select = document.querySelectorAll('.graph div[data-record="check"]');
+            if(select){
+                Array.prototype.forEach.call(select,function(dom){
+                    dom.parentNode.removeChild(dom);
+                })
+            }else{
+                alert('请选中任意内容')
+            }
         }
-
-
-
-
-
-
-
 
         select.onclick = function(){
             stack = []
