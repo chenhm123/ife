@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    div{
+        border:1px solid black;
+        padding:10px;
+        margin-top:5px;
+        background:white;
+    }
+
+    .open>div{
+        display:block;
+    }
+    .close>div{
+        display:none;
+    }
+    div[data-select='select']{
+        background:yellowgreen;
+    }
+    span{
+        color:red;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="root">
+    <span>1</span>
+    <div class="close">
+        <span>9</span>
+        <div><span>2</span></div>
+        <div><span>3</span></div>
+        <div><span>4</span></div>
+    </div>
+    <div class="close"><span>11</span>
+        <div><span>5</span></div>
+        <div><span>6</span></div>
+        <div><span>7</span></div>
+        <div><span>8</span></div>
+    </div>
+</div>
+<button id="delete">delete</button>
+<input type="text" id="nodeValue">
+<button id="add">add</button>
+</body>
+<script>
+    (function(){
+        var root = document.querySelector(".root");
+        var spans = document.querySelectorAll("span");
+        var deleteBtn = document.querySelector("#delete");
+        var nodeText = document.querySelector("#nodeValue");
+        var addBtn = document.querySelector("#add");
+
+        root.onclick = function(event){
+            if(event.target.getAttribute('data-select') === "select"){
+
+            }else{
+                if(document.querySelector("div[data-select='select']")){
+                    var old = document.querySelector("div[data-select='select']");
+                    old.setAttribute('data-select',"noselect");
+                }
+                event.target.setAttribute('data-select',"select");
+            }
+        }
+        Array.prototype.forEach.call(spans,function(span){
+            span.onclick = function(){
+                if(this.parentNode.getAttribute('class') === "close"){
+                    this.parentNode.setAttribute('class',"open")
+                }else{
+                    this.parentNode.setAttribute('class',"close");
+                }
+            }
+        })
+        deleteBtn.onclick = function(){
+            var dom = document.querySelector("div[data-select='select']");
+            dom.parentNode.removeChild(dom);
+        }
+
+        addBtn.onclick = function(){
+            var textValue = nodeText.value;
+            var dom = document.querySelector("div[data-select='select']");
+            if(textValue){
+                if(dom){
+                    var div = document.createElement("div");
+                    var span = document.createElement("span")
+                    span.textContent = textValue;
+                    div.appendChild(span);
+                    dom.appendChild(div);
+                }
+            }
+        }
+    })()
+</script>
+</html>
