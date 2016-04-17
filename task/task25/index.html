@@ -46,6 +46,9 @@
 <button id="delete">delete</button>
 <input type="text" id="nodeValue">
 <button id="add">add</button>
+<input type="text" id="selectValue"/>
+<button id="select">select</button>
+
 </body>
 <script>
     (function(){
@@ -54,6 +57,31 @@
         var deleteBtn = document.querySelector("#delete");
         var nodeText = document.querySelector("#nodeValue");
         var addBtn = document.querySelector("#add");
+        var selectText = document.querySelector("#selectValue");
+        var selectBtn = document.querySelector("#select");
+
+
+        selectBtn.onclick = function(){
+            if(selectText.value){
+                Array.prototype.forEach.call(spans,function(cur){
+                    if(cur.textContent === selectText.value){
+                        cur.parentNode.style.background = "green";
+                        expandNode(cur)
+                    }
+                })
+            }else{
+                alert("请输入内容再查询")
+            }
+        }
+
+        function expandNode(node){
+            if(node.parentNode.nodeName ==="DIV"){
+                node.parentNode.setAttribute('class','open')
+                expandNode(node.parentNode)
+            }
+        }
+
+
 
         root.onclick = function(event){
             if(event.target.getAttribute('data-select') === "select"){
